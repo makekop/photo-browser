@@ -1,20 +1,19 @@
-import { CardImage } from '@/components/ui/CardImage';
+import PhotoCard from './components/PhotoCard';
 import { useState, useEffect } from 'react';
-import { PaginationSimple } from './components/ui/PaginationSimple';
-import Header from './components/ui/Header';
+import { SelectPage } from './components/SelectPage';
+import Header from './components/Header';
 
 export default function App() {
-  const rowsPerPage = 100;
+  const maxPhotos = 5000;
   const [photos, setPhotos] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(20);
 
-  async function fetchPlaceholders() {
+  async function fetchPhotos() {
     try {
       const res = await fetch(
-        `https://jsonplaceholder.typicode.com/photos?_limit=${rowsPerPage}`,
+        `https://jsonplaceholder.typicode.com/photos?_limit=${maxPhotos}`,
       );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setPhotos(data);
     } catch (err) {
@@ -23,26 +22,26 @@ export default function App() {
   }
 
   useEffect(() => {
-    fetchPlaceholders();
+    fetchPhotos();
   }, []);
 
   return (
     <div>
       <Header />
-      <div className="grid gap-y-8 sm:grid-cols-5 lg:grid-cols-10">
-        <CardImage
+      <div className="grid gap-y-8 sm:grid-cols-5 lg:grid-cols-10 pt-20 pb-10">
+        <PhotoCard
           photos={photos}
           startIndex={startIndex}
           endIndex={endIndex}
         />
       </div>
-      <div className="flex items-center justify-center mt-8">
-        <PaginationSimple
+      <div className="lg:fixed bottom-0 right-0 left-0 md:flex items-center justify-center m-8">
+        <SelectPage
           startIndex={startIndex}
           endIndex={endIndex}
-          rowsPerPage={20}
           setStartIndex={setStartIndex}
           setEndIndex={setEndIndex}
+          photos={photos}
         />
       </div>
     </div>
