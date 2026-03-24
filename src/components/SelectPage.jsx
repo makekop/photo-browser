@@ -3,35 +3,24 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { MAX_PAGES } from '@/App';
 
-export function SelectPage({ startIndex, setStartIndex, setEndIndex, photos }) {
-  const minPhotos = 0;
-  const imagesPerPage = 20;
-  const endIndex = startIndex + imagesPerPage;
-  console.log(startIndex);
-  console.log(endIndex);
-
+export function SelectPage({ page, setPage }) {
   return (
-    <Pagination>
+    <Pagination className="bg-white w-screen lg:fixed right-0 left-0 md:flex items-center px-8 py-4 text-4xl font-bold">
       <PaginationPrevious
-        className={
-          startIndex <= minPhotos ? 'pointer-events-none opacity-50' : undefined
-        }
+        className={page <= 1 ? 'pointer-events-none opacity-50' : undefined}
         onClick={() => {
-          setStartIndex(startIndex - imagesPerPage);
-          setEndIndex(endIndex - imagesPerPage);
+          setPage((page) => page - 1);
         }}
       />
 
       <PaginationNext
         className={
-          endIndex > photos.length
-            ? 'pointer-events-none opacity-50'
-            : undefined
+          page > MAX_PAGES ? 'pointer-events-none opacity-50' : undefined
         }
         onClick={() => {
-          setStartIndex(startIndex + imagesPerPage);
-          setEndIndex(endIndex + imagesPerPage);
+          setPage((page) => page + 1);
         }}
       />
     </Pagination>
