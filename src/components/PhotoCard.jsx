@@ -11,7 +11,12 @@ export default function PhotoCard({ photos, startIndex, endIndex }) {
         key={photo.id}
         className="flex-col rounded-2xl bg-white m-4 md:transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:scale-102 hover:bg-gray-100"
       >
-        <img className="w-full" src={thumbUrl} alt="" loading="lazy" />
+        <img
+          className="w-full"
+          src={thumbUrl}
+          alt={photo.title}
+          loading="lazy"
+        />
         <CardTitle className="p-2 text-start">{photo.title}</CardTitle>
       </Card>
     );
