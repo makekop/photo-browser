@@ -1,7 +1,6 @@
 import { Card, CardTitle } from '@/components/ui/card';
 
 export default function PhotoCard({ photo }) {
-  if (!photo) return null;
   const thumbUrl = `https://picsum.photos/id/${photo.id}/150/150`;
   const imageUrl = `https://picsum.photos/id/${photo.id}/600/600`;
   return (
