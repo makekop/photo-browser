@@ -11,16 +11,44 @@ export default function App() {
   const url = `https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${IMAGES_PER_PAGE}`;
   const { data: photos, loading, error } = useFetch(url);
 
+  if (loading) {
+    return (
+      <div>
+        <Header />
+        <p className="text-center mt-10 text-6xl text-blue-500 font-bold">
+          Loading...
+        </p>
+        <div className="lg:fixed bottom-0 right-0 left-0 md:flex items-center justify-center m-8">
+          <SelectPage page={page} setPage={setPage} />
+        </div>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div>
+        <p className="text-center mt-10 text-6xl text-red-500">
+          Something went wrong!
+        </p>
+      </div>
+    );
+  }
+  if (photos.length === 0) {
+    <div>
+      <Header />; return <p>No Photos Found!</p>;
+    </div>;
+  }
+
   return (
     <div>
       <Header />
-      {loading && <p>Loading...</p>}
-      {error && <p>Big Error!!</p>}
+
       <div className="grid gap-y-8 sm:grid-cols-5 lg:grid-cols-10 pt-20 pb-10">
-        {photos.map((photo) => {
-          return <PhotoCard photo={photo} key={photo.id} />;
-        })}
+        {photos?.map((photo) => (
+          <PhotoCard photo={photo} key={photo.id} />
+        ))}
       </div>
+
       <div className="lg:fixed bottom-0 right-0 left-0 md:flex items-center justify-center m-8">
         <SelectPage page={page} setPage={setPage} />
       </div>
